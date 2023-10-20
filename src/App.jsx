@@ -1,40 +1,31 @@
-let titre = "Bonjour le monde"
-//let style = {color: "black", backgroundColor : 'yellow', width : '80%'}
-let liste = ['banane', 'pomme', 874458, 'mangue', 'avocat', 'coco', 1, 859, 'yannick', 'essoh', 4584]
-let listeP = liste.reduce((acc, element) => {
-  if(typeof element == 'string'){
-    acc.push(element)
-  }
-  return acc
-}, [])
+import React, { useState } from 'react';
+
 function App() {
-  
+  // Utilisez le hook useState pour gérer l'état de "nb"
+  const [personne, setPersonne] = useState({
+    firstName : "Essoh",
+    lastName : "yannick",
+    age : 18
+  });
+  const [nb, setNb] = useState(0)
+
+  function increment() {
+    console.log('Bonjour');
+    setPersonne({ ...personne, age : personne.age++});
+  }
+
+  function incrementCont() {
+    console.log('Bonjour nb');
+    setNb(nb + 1);
+  }
 
   return (
     <>
-    <Titre color= "blue" > le petit titre en utilisant des props</Titre>
-      <input type="text" />
-      <p>
-        Lorem ipsum dolor sit amet consectetur  necessitatibus.
-        consectetur  ngergergergergeecessitatibus.
-       gergerg consectetur  necessitatibus.
-       gergerge consectetur  necessitatezferzgfergferrgibus.
-
-      </p>
-      <ul>
-        {listeP.map((el, index) => (
-          <li key={index}>{el}</li>
-        ))}
-      </ul>
+      <h1>Compteur de l'age {personne.age} </h1>
+      <button onClick={increment}>Incrémenter</button><br /><br />
+      <button onClick={incrementCont}>IncrémenterCOUNT {nb}</button>
     </>
-    )
+  );
 }
 
-function Titre({color, children}){
-  let afficheAlert = () => {
-    alert('Bonjour yannick')
-  }
-  return  <div onClick={afficheAlert} id="titre" className="{titre}" style={{color: color}}>{children}</div>
-}
-
-export default App
+export default App;
