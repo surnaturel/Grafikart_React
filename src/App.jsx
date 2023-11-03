@@ -1,4 +1,4 @@
-import React from 'react';
+import React,  { useState } from 'react';
 
 const PRODUCTS = [
   { category: "Fruits", price: "$1", stocked: true, name: "Apple" },
@@ -10,27 +10,36 @@ const PRODUCTS = [
 ];
 
 function App() {
+  const [filteredProducts, setFilteredProducts] = useState(PRODUCTS);
   return (
     <div>
-      <SearchBar />
-      <ProductTable products={PRODUCTS} />
+      <SearchBar setFilteredProducts={setFilteredProducts} />
+      <ProductTable products={filteredProducts} />
     </div>
   );
 }
 
-function SearchBar() {
+function SearchBar(props) {
   return (
     <div>
       <input type="text" placeholder="Search..." />
-      <Checkbox />
+      <Checkbox setFilteredProducts={props.setFilteredProducts}/>
     </div>
   );
 }
 
-function Checkbox() {
+function Checkbox(props) {
+  const { setFilteredProducts } = props;
+
+  const productChange = () => {
+    setFilteredProducts((prevProducts) => {
+      return prevProducts.filter((product) => product.stocked === false);
+    });
+  };
+
   return (
     <div>
-      <input type="checkbox" name="checkbox" id="checkbox" />
+      <input onChange={productChange} type="checkbox" name="checkbox" id="checkbox" />
       N'afficher que les produits en stock
     </div>
   );
@@ -63,7 +72,6 @@ function ProductCategoryRow(props) {
 
 function ProductRow(props) {
   const { products } = props;
-
   return (
     <table>
       <thead>
@@ -75,8 +83,8 @@ function ProductRow(props) {
       <tbody>
         {products.map(product => (
           <tr key={product.name}>
-            <td>{product.name}</td>
-            <td>{product.price}</td>
+            <td style={{ color: product.stocked ? 'black' : 'red' }}>{product.name}</td>
+            <td style={{ color: product.stocked ? 'black' : 'red' }}>{product.price}</td>
           </tr>
         ))}
       </tbody>
